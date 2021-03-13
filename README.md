@@ -20,8 +20,8 @@ Contents
 Read GIF Images
 ---------------
 
-    \[img, map\] = imread( 'week3\\img1.gif', 1);
-    \[back, map2\] = imread( "week3\\son2.gif", 1);
+    [img, map\] = imread( 'week3\\img1.gif', 1);
+    [back, map2\] = imread( "week3\\son2.gif", 1);
 
 Convert to gray image
 ---------------------
