@@ -1,0 +1,139 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>week3code</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-14"><meta name="DC.source" content="week3code.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Read GIF Images</a></li><li><a href="#2">Convert to gray image</a></li><li><a href="#3">Apply offset and get the difference between the images</a></li><li><a href="#4">Apply threshold</a></li><li><a href="#5">Add low contrast image</a></li><li><a href="#6">Apply imadjust</a></li><li><a href="#7">Apply imadjust with gamma</a></li><li><a href="#8">Apply histeq</a></li><li><a href="#9">Apply adapthisteq</a></li><li><a href="#10">Comparison</a></li></ul></div><h2 id="1">Read GIF Images</h2><pre class="codeinput">[img, map] = imread( <span class="string">'week3\img1.gif'</span>, 1);
+[back, map2] = imread( <span class="string">"week3\son2.gif"</span>, 1);
+</pre><h2 id="2">Convert to gray image</h2><pre class="codeinput">img2 = ind2gray(img, map);
+back2 = ind2gray(back, map2);
+</pre><h2 id="3">Apply offset and get the difference between the images</h2><pre class="codeinput">back2 = back2 - 100;
+imgfinal = img2 - back2;
+</pre><h2 id="4">Apply threshold</h2><pre class="codeinput">imgfinal2 = imbinarize(imgfinal, <span class="string">'adaptive'</span>, <span class="string">'ForegroundPolarity'</span>,<span class="string">'dark'</span>,<span class="string">'Sensitivity'</span>,0.5);
+montage({img2, imgfinal, imgfinal2}, <span class="string">'Size'</span>, [1 3]);
+title(<span class="string">"Original Image, enhanced image and image with threshold"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_01.png" alt=""> <h2 id="5">Add low contrast image</h2><pre class="codeinput">lowcontrastimg = rgb2gray(imread(<span class="string">'week3\lowContrast.jpg'</span>));
+imshow(lowcontrastimg);
+title(<span class="string">"Low Contrast"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_02.png" alt=""> <h2 id="6">Apply imadjust</h2><pre class="codeinput">im_imadjust = imadjust(lowcontrastimg);
+imshow(im_imadjust);
+title(<span class="string">"Imadjust"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_03.png" alt=""> <h2 id="7">Apply imadjust with gamma</h2><pre class="codeinput">im_imadjustgamma = imadjust(lowcontrastimg, [], [], 0.3);
+imshow(im_imadjustgamma);
+title(<span class="string">"Imadjust with gamma correction"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_04.png" alt=""> <h2 id="8">Apply histeq</h2><pre class="codeinput">im_histeq = histeq(lowcontrastimg);
+imshow(im_histeq);
+title(<span class="string">"Histeq"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_05.png" alt=""> <h2 id="9">Apply adapthisteq</h2><pre class="codeinput">im_adapthisteq = adapthisteq(lowcontrastimg);
+imshow(im_adapthisteq);
+title(<span class="string">"Adaptative Histeq"</span>);
+</pre><img vspace="5" hspace="5" src="week3code_06.png" alt=""> <h2 id="10">Comparison</h2><pre class="codeinput">montage({lowcontrastimg, im_imadjust, im_imadjustgamma, im_histeq, im_adapthisteq}, <span class="string">'Size'</span>, [1 5]);
+title(<span class="string">"Original Image and Enhanced Images using imadjust, imadjust with gamma correction, histeq, and adapthisteq"</span>)
+</pre><img vspace="5" hspace="5" src="week3code_07.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Read GIF Images
+[img, map] = imread( 'week3\img1.gif', 1);
+[back, map2] = imread( "week3\son2.gif", 1);
+%% Convert to gray image
+img2 = ind2gray(img, map);
+back2 = ind2gray(back, map2);
+%% Apply offset and get the difference between the images
+back2 = back2 - 100;
+imgfinal = img2 - back2;
+%% Apply threshold
+imgfinal2 = imbinarize(imgfinal, 'adaptive', 'ForegroundPolarity','dark','Sensitivity',0.5);
+montage({img2, imgfinal, imgfinal2}, 'Size', [1 3]);
+title("Original Image, enhanced image and image with threshold");
+%% Add low contrast image
+lowcontrastimg = rgb2gray(imread('week3\lowContrast.jpg'));
+imshow(lowcontrastimg);
+title("Low Contrast");
+%% Apply imadjust
+im_imadjust = imadjust(lowcontrastimg);
+imshow(im_imadjust);
+title("Imadjust");
+%% Apply imadjust with gamma
+im_imadjustgamma = imadjust(lowcontrastimg, [], [], 0.3);
+imshow(im_imadjustgamma);
+title("Imadjust with gamma correction");
+%% Apply histeq
+im_histeq = histeq(lowcontrastimg);
+imshow(im_histeq);
+title("Histeq");
+%% Apply adapthisteq
+im_adapthisteq = adapthisteq(lowcontrastimg);
+imshow(im_adapthisteq);
+title("Adaptative Histeq");
+%% Comparison
+montage({lowcontrastimg, im_imadjust, im_imadjustgamma, im_histeq, im_adapthisteq}, 'Size', [1 5]);
+title("Original Image and Enhanced Images using imadjust, imadjust with gamma correction, histeq, and adapthisteq")
+
+
+
+
+##### SOURCE END #####
+--></body></html>
